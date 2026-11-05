@@ -29,7 +29,11 @@ func main() {
 		os.Exit(1)
 	}
 
-	log.Info("db connection established")
+	if err = db.Ping(); err != nil {
+		log.Error("database didn't respond to ping", "err", err)
+		os.Exit(1)
+	}
+	log.Info("database connection established")
 
 	err = database.MigrateUp(db)
 	if err != nil {
