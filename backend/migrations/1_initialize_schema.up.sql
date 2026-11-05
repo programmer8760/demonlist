@@ -15,17 +15,12 @@ CREATE TABLE IF NOT EXISTS levels(
   UNIQUE (list_id, placement)
 );
 
-CREATE TABLE IF NOT EXISTS roles(
-  id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  name VARCHAR(32) NOT NULL UNIQUE
-);
-
 CREATE TABLE IF NOT EXISTS users(
   id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   username VARCHAR(32) NOT NULL UNIQUE,
   password_hash VARCHAR(255) NOT NULL,
   role VARCHAR(16) NOT NULL DEFAULT 'player'
-    CHECK ( role IN ('player', 'moderator', 'owner') ),
+    CHECK ( role IN ('player', 'moderator', 'owner') )
 );
 
 CREATE TABLE IF NOT EXISTS records(
