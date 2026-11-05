@@ -1,9 +1,11 @@
 package main
 
 import (
+	"errors"
 	"log/slog"
 	"os"
 
+	"github.com/golang-migrate/migrate/v4"
 	"github.com/joho/godotenv"
 	"github.com/programmer8760/demonlist/backend/database"
 	"github.com/programmer8760/demonlist/backend/internal/logger"
@@ -28,4 +30,16 @@ func main() {
 	}
 
 	log.Info("db connection established")
+
+	err = database.MigrateUp(db)
+	if err != nil {
+		if errors.Is(err, migrate.ErrNoChange) {
+			log.Info("database migrations: no changes")
+		} else {
+			log.Error("database migration failed", "err", err)
+			os.Exit(1)
+		}
+	} else {
+		log.Info("database migrations: success")
+	}
 }
