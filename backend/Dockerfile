@@ -8,4 +8,5 @@ RUN go build -v -o /app
 FROM alpine:latest
 WORKDIR /app
 COPY --from=builder /app ./app
+COPY --from=builder /src/app/migrations ./migrations
 CMD ["./app"]
