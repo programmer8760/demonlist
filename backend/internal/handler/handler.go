@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/programmer8760/demonlist/backend/domain"
+	"github.com/programmer8760/demonlist/backend/internal/domain"
 )
 
 type Handler struct {
