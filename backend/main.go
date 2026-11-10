@@ -15,6 +15,8 @@ import (
 	"github.com/programmer8760/demonlist/backend/database"
 	"github.com/programmer8760/demonlist/backend/internal/handler"
 	"github.com/programmer8760/demonlist/backend/internal/logger"
+	"github.com/programmer8760/demonlist/backend/internal/repository"
+	"github.com/programmer8760/demonlist/backend/internal/service"
 )
 
 func main() {
@@ -53,7 +55,19 @@ func main() {
 		log.Info("database migrations: success")
 	}
 
-	h := handler.NewHandler(log)
+	listsRepo := repository.NewListsRepository(db)
+	listsSvc := service.NewListsService(listsRepo, log)
+
+	levelsRepo := repository.NewLevelsRepository(db)
+	levelsSvc := service.NewListsService(levelsRepo, log)
+
+	usersRepo := repository.NewUsersRepository(db)
+	recordsRepo := repository.NewRecordsRepository(db)
+
+	usersSvc := service.NewUsersService(usersRepo, recordsRepo, log)
+	recordsSvc := service.NewRecordsService(recordsRepo, usersRepo, log)
+
+	h := handler.NewHandler(log, listsSvc, levelsSvc, usersSvc, recordsSvc)
 
 	addr := ":" + os.Getenv("HTTP_PORT")
 	server := &http.Server{
