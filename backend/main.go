@@ -21,6 +21,11 @@ import (
 
 func main() {
 	logLevel := slog.LevelInfo
+	debug := os.Getenv("DEBUG") == "1"
+	if debug {
+		logLevel = slog.LevelDebug
+	}
+
 	log := logger.New(logLevel)
 
 	if _, ok := os.LookupEnv("HTTP_PORT"); !ok {
