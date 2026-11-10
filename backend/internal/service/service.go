@@ -1,8 +1,10 @@
 package service
 
 import (
+	"context"
 	"log/slog"
 
+	"github.com/programmer8760/demonlist/backend/internal/domain"
 	"github.com/programmer8760/demonlist/backend/internal/repository"
 )
 
@@ -36,7 +38,9 @@ func NewListsService(repo repository.ListsRepository, log *slog.Logger) ListsSer
 	}
 }
 
-type UsersService interface{}
+type UsersService interface {
+	RegisterUser(ctx context.Context, user domain.User) (RegisterResponse, error)
+}
 
 type usersService struct {
 	repo        repository.UsersRepository
