@@ -1,7 +1,10 @@
 package repository
 
 import (
+	"context"
 	"database/sql"
+
+	"github.com/programmer8760/demonlist/backend/internal/domain"
 )
 
 type LevelsRepository interface{}
@@ -24,7 +27,9 @@ func NewListsRepository(db *sql.DB) ListsRepository {
 	return &postgresListsRepository{db: db}
 }
 
-type UsersRepository interface{}
+type UsersRepository interface {
+	Register(ctx context.Context, user *domain.User) error
+}
 
 type postgresUsersRepository struct {
 	db *sql.DB
