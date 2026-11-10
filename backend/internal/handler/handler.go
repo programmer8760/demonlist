@@ -31,7 +31,7 @@ func NewHandler(log *slog.Logger, lists service.ListsService, levels service.Lev
 		logger:  log,
 	}
 
-	// h.routes.HandleFunc("GET /subscriptions", h.GetAllSubscriptions)
+	h.routes.HandleFunc("POST /register", h.RegisterUser)
 
 	return h
 }
