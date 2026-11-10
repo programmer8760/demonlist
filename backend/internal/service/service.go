@@ -2,28 +2,36 @@ package service
 
 import (
 	"log/slog"
+
+	"github.com/programmer8760/demonlist/backend/internal/repository"
 )
 
 type LevelsService interface{}
 
 type levelsService struct {
-	logger *slog.Logger
+	repo      repository.LevelsRepository
+	listsRepo repository.ListsRepository
+	logger    *slog.Logger
 }
 
-func NewLevelsService(log *slog.Logger) LevelsService {
+func NewLevelsService(repo repository.LevelsRepository, listsRepo repository.ListsRepository, log *slog.Logger) LevelsService {
 	return &levelsService{
-		logger: log,
+		repo:      repo,
+		listsRepo: listsRepo,
+		logger:    log,
 	}
 }
 
 type ListsService interface{}
 
 type listsService struct {
+	repo   repository.ListsRepository
 	logger *slog.Logger
 }
 
-func NewListsService(log *slog.Logger) ListsService {
+func NewListsService(repo repository.ListsRepository, log *slog.Logger) ListsService {
 	return &listsService{
+		repo:   repo,
 		logger: log,
 	}
 }
@@ -31,23 +39,31 @@ func NewListsService(log *slog.Logger) ListsService {
 type UsersService interface{}
 
 type usersService struct {
-	logger *slog.Logger
+	repo        repository.UsersRepository
+	recordsRepo repository.RecordsRepository
+	logger      *slog.Logger
 }
 
-func NewUsersService(log *slog.Logger) UsersService {
+func NewUsersService(repo repository.UsersRepository, recordsRepo repository.RecordsRepository, log *slog.Logger) UsersService {
 	return &usersService{
-		logger: log,
+		repo:        repo,
+		recordsRepo: recordsRepo,
+		logger:      log,
 	}
 }
 
 type RecordsService interface{}
 
 type recordsService struct {
-	logger *slog.Logger
+	repo      repository.RecordsRepository
+	usersRepo repository.UsersRepository
+	logger    *slog.Logger
 }
 
-func NewRecordsService(log *slog.Logger) RecordsService {
+func NewRecordsService(repo repository.RecordsRepository, usersRepo repository.UsersRepository, log *slog.Logger) RecordsService {
 	return &recordsService{
-		logger: log,
+		repo:      repo,
+		usersRepo: usersRepo,
+		logger:    log,
 	}
 }
