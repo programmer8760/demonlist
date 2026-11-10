@@ -43,3 +43,13 @@ type postgresRecordsRepository struct {
 func NewRecordsRepository(db *sql.DB) RecordsRepository {
 	return &postgresRecordsRepository{db: db}
 }
+
+type PermissionsRepository interface{}
+
+type postgresPermissionsRepository struct {
+	db *sql.DB
+}
+
+func NewPermissionsRepository(db *sql.DB) PermissionsRepository {
+	return &postgresPermissionsRepository{db: db}
+}
