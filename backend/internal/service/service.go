@@ -40,6 +40,7 @@ func NewListsService(repo repository.ListsRepository, log *slog.Logger) ListsSer
 
 type UsersService interface {
 	RegisterUser(ctx context.Context, user domain.User) (RegisterResponse, error)
+	LoginUser(ctx context.Context, user domain.User) (LoginUserResponse, error)
 }
 
 type usersService struct {
