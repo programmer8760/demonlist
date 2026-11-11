@@ -32,6 +32,7 @@ func NewHandler(log *slog.Logger, lists service.ListsService, levels service.Lev
 	}
 
 	h.routes.HandleFunc("POST /register", h.RegisterUser)
+	h.routes.HandleFunc("POST /login", h.LoginUser)
 
 	return h
 }
