@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"database/sql"
 	"errors"
 
 	"github.com/lib/pq"
@@ -23,4 +24,20 @@ func (r *postgresUsersRepository) Register(ctx context.Context, user *domain.Use
 		}
 	}
 	return err
+}
+
+func (r *postgresUsersRepository) GetUserByUsername(ctx context.Context, attempt domain.User) (domain.User, error) {
+	var user domain.User
+	err := r.db.QueryRowContext(
+		ctx,
+		"SELECT * FROM users WHERE username = $1",
+		attempt.Username,
+	).Scan(&user.ID, &user.Username, &user.Password, &user.Role)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return domain.User{}, domain.ErrUserNotFound
+		}
+		return domain.User{}, err
+	}
+	return user, nil
 }
