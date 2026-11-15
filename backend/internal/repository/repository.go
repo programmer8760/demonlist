@@ -7,7 +7,14 @@ import (
 	"github.com/programmer8760/demonlist/backend/internal/domain"
 )
 
-type LevelsRepository interface{}
+type LevelsRepository interface {
+	Create(ctx context.Context, level *domain.Level) error
+	GetByListID(ctx context.Context, listID uint) ([]domain.Level, error)
+	GetByID(ctx context.Context, id uint) (domain.Level, error)
+	Update(ctx context.Context, level domain.Level) error
+	UpdatePlacements(ctx context.Context, listID uint, levelIDs []uint) error
+	Delete(ctx context.Context, id uint) error
+}
 
 type postgresLevelsRepository struct {
 	db *sql.DB
