@@ -24,17 +24,25 @@ func NewLevelsService(repo repository.LevelsRepository, listsRepo repository.Lis
 	}
 }
 
-type ListsService interface{}
-
-type listsService struct {
-	repo   repository.ListsRepository
-	logger *slog.Logger
+type ListsService interface {
+	CreateList(ctx context.Context, list domain.List) (domain.List, error)
+	GetLists(ctx context.Context) ([]domain.List, error)
+	GetListByID(ctx context.Context, id uint) (domain.List, error)
+	UpdateList(ctx context.Context, list domain.List) (domain.List, error)
+	DeleteList(ctx context.Context, id uint) error
 }
 
-func NewListsService(repo repository.ListsRepository, log *slog.Logger) ListsService {
+type listsService struct {
+	repo      repository.ListsRepository
+	usersRepo repository.UsersRepository
+	logger    *slog.Logger
+}
+
+func NewListsService(repo repository.ListsRepository, usersRepo repository.UsersRepository, log *slog.Logger) ListsService {
 	return &listsService{
-		repo:   repo,
-		logger: log,
+		repo:      repo,
+		usersRepo: usersRepo,
+		logger:    log,
 	}
 }
 
