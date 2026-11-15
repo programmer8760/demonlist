@@ -11,3 +11,9 @@ type List struct {
 	ID   uint   `json:"id"`
 	Name string `json:"name"`
 }
+
+type UserPermissions struct {
+	UserID      uint   `json:"user_id"`
+	ListID      uint   `json:"list_id"`
+	Permissions uint16 `json:"permissions"`
+}
