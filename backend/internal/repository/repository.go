@@ -30,6 +30,7 @@ func NewListsRepository(db *sql.DB) ListsRepository {
 type UsersRepository interface {
 	Register(ctx context.Context, user *domain.User) error
 	GetUserByUsername(ctx context.Context, user domain.User) (domain.User, error)
+	GetUserByID(ctx context.Context, id uint) (domain.User, error)
 }
 
 type postgresUsersRepository struct {
