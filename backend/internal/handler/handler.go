@@ -42,6 +42,12 @@ func NewHandler(log *slog.Logger, lists service.ListsService, levels service.Lev
 	h.routes.Handle("PUT /lists/{id}", h.Auth(http.HandlerFunc(h.UpdateList)))
 	h.routes.Handle("DELETE /lists/{id}", h.Auth(http.HandlerFunc(h.DeleteList)))
 
+	h.routes.Handle("POST /lists/{id}/permissions", h.Auth(http.HandlerFunc(h.CreatePermissions)))
+	h.routes.Handle("GET /lists/{id}/permissions", h.Auth(http.HandlerFunc(h.GetListPermissions)))
+	h.routes.Handle("GET /lists/{id}/permissions/{user_id}", h.Auth(http.HandlerFunc(h.GetUserPermissions)))
+	h.routes.Handle("PUT /lists/{id}/permissions/{user_id}", h.Auth(http.HandlerFunc(h.UpdatePermissions)))
+	h.routes.Handle("DELETE /lists/{id}/permissions/{user_id}", h.Auth(http.HandlerFunc(h.DeletePermissions)))
+
 	return h
 }
 
