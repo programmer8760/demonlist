@@ -68,7 +68,7 @@ func main() {
 	permissionsRepo := repository.NewPermissionsRepository(db)
 
 	listsSvc := service.NewListsService(listsRepo, usersRepo, log)
-	levelsSvc := service.NewLevelsService(levelsRepo, listsRepo, log)
+	levelsSvc := service.NewLevelsService(levelsRepo, listsRepo, usersRepo, permissionsRepo, log)
 	usersSvc := service.NewUsersService(usersRepo, recordsRepo, log)
 	recordsSvc := service.NewRecordsService(recordsRepo, usersRepo, log)
 	permissionsSvc := service.NewPermissionsService(permissionsRepo, usersRepo, log)
