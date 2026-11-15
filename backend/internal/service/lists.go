@@ -2,30 +2,11 @@ package service
 
 import (
 	"context"
-	"errors"
 	"strings"
 	"unicode/utf8"
 
 	"github.com/programmer8760/demonlist/backend/internal/domain"
 )
-
-func (s *listsService) requireOwner(ctx context.Context) error {
-	userID, ok := domain.UserIDFromContext(ctx)
-	if !ok {
-		return domain.ErrUnauthorized
-	}
-	user, err := s.usersRepo.GetUserByID(ctx, userID)
-	if err != nil {
-		if errors.Is(err, domain.ErrUserNotFound) {
-			return domain.ErrUnauthorized
-		}
-		return err
-	}
-	if user.Role != "owner" {
-		return domain.ErrForbidden
-	}
-	return nil
-}
 
 func validateListName(name string) (string, error) {
 	name = strings.TrimSpace(name)
@@ -36,7 +17,7 @@ func validateListName(name string) (string, error) {
 }
 
 func (s *listsService) CreateList(ctx context.Context, list domain.List) (domain.List, error) {
-	if err := s.requireOwner(ctx); err != nil {
+	if err := requireOwner(ctx, s.usersRepo); err != nil {
 		return domain.List{}, err
 	}
 
@@ -61,7 +42,7 @@ func (s *listsService) GetListByID(ctx context.Context, id uint) (domain.List, e
 }
 
 func (s *listsService) UpdateList(ctx context.Context, list domain.List) (domain.List, error) {
-	if err := s.requireOwner(ctx); err != nil {
+	if err := requireOwner(ctx, s.usersRepo); err != nil {
 		return domain.List{}, err
 	}
 
@@ -78,7 +59,7 @@ func (s *listsService) UpdateList(ctx context.Context, list domain.List) (domain
 }
 
 func (s *listsService) DeleteList(ctx context.Context, id uint) error {
-	if err := s.requireOwner(ctx); err != nil {
+	if err := requireOwner(ctx, s.usersRepo); err != nil {
 		return err
 	}
 	return s.repo.Delete(ctx, id)
