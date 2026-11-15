@@ -17,3 +17,12 @@ type UserPermissions struct {
 	ListID      uint   `json:"list_id"`
 	Permissions uint16 `json:"permissions"`
 }
+
+type Level struct {
+	ID           uint   `json:"id"`
+	ListID       *uint  `json:"list_id"`
+	Name         string `json:"name"`
+	Description  string `json:"description"`
+	ShowcaseLink string `json:"showcase_link"`
+	Placement    int    `json:"placement"`
+}
