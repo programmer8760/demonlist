@@ -8,18 +8,29 @@ import (
 	"github.com/programmer8760/demonlist/backend/internal/repository"
 )
 
-type LevelsService interface{}
+type LevelsService interface {
+	CreateLevel(ctx context.Context, level domain.Level) (domain.Level, error)
+	GetLevelsByListID(ctx context.Context, listID uint) ([]domain.Level, error)
+	GetLevelByID(ctx context.Context, id uint) (domain.Level, error)
+	UpdateLevel(ctx context.Context, level domain.Level) (domain.Level, error)
+	UpdateLevelPlacements(ctx context.Context, listID uint, levelIDs []uint) ([]domain.Level, error)
+	DeleteLevel(ctx context.Context, id uint) error
+}
 
 type levelsService struct {
 	repo      repository.LevelsRepository
 	listsRepo repository.ListsRepository
+	usersRepo repository.UsersRepository
+	permsRepo repository.PermissionsRepository
 	logger    *slog.Logger
 }
 
-func NewLevelsService(repo repository.LevelsRepository, listsRepo repository.ListsRepository, log *slog.Logger) LevelsService {
+func NewLevelsService(repo repository.LevelsRepository, listsRepo repository.ListsRepository, usersRepo repository.UsersRepository, permsRepo repository.PermissionsRepository, log *slog.Logger) LevelsService {
 	return &levelsService{
 		repo:      repo,
 		listsRepo: listsRepo,
+		usersRepo: usersRepo,
+		permsRepo: permsRepo,
 		logger:    log,
 	}
 }
