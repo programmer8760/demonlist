@@ -80,3 +80,25 @@ func NewRecordsService(repo repository.RecordsRepository, usersRepo repository.U
 		logger:    log,
 	}
 }
+
+type PermissionsService interface {
+	AddUserPermissions(ctx context.Context, perms domain.UserPermissions) (domain.UserPermissions, error)
+	GetListPermissions(ctx context.Context, listID uint) ([]domain.UserPermissions, error)
+	GetUserPermissions(ctx context.Context, userID uint, listID uint) (domain.UserPermissions, error)
+	UpdateUserPermissions(ctx context.Context, perms domain.UserPermissions) (domain.UserPermissions, error)
+	DeleteUserPermissions(ctx context.Context, userID uint, listID uint) error
+}
+
+type permissionsService struct {
+	repo      repository.PermissionsRepository
+	usersRepo repository.UsersRepository
+	logger    *slog.Logger
+}
+
+func NewPermissionsService(repo repository.PermissionsRepository, usersRepo repository.UsersRepository, log *slog.Logger) PermissionsService {
+	return &permissionsService{
+		repo:      repo,
+		usersRepo: usersRepo,
+		logger:    log,
+	}
+}
