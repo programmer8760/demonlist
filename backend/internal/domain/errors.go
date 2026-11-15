@@ -23,6 +23,7 @@ var (
 	ErrInvalidPermissions          = errors.New("invalid permissions")
 	ErrUserPermissionsNotFound     = errors.New("user permissions not found")
 	ErrUserPermissionsAlreadyExist = errors.New("user already has permissions in this list")
+	ErrUserNotModerator            = errors.New("user is not a moderator")
 )
 
 type ErrorResponse struct {
