@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS lists(
 
 CREATE TABLE IF NOT EXISTS levels(
   id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  list_id BIGINT NOT NULL REFERENCES lists(id),
+  list_id BIGINT REFERENCES lists(id) ON DELETE SET NULL,
   name VARCHAR(20) NOT NULL,
   description VARCHAR(255),
   showcase_link TEXT NOT NULL,
@@ -25,8 +25,8 @@ CREATE TABLE IF NOT EXISTS users(
 
 CREATE TABLE IF NOT EXISTS records(
   id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  user_id BIGINT NOT NULL REFERENCES users(id),
-  level_id BIGINT NOT NULL REFERENCES levels(id),
+  user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  level_id BIGINT NOT NULL REFERENCES levels(id) ON DELETE CASCADE,
   status VARCHAR(16) NOT NULL DEFAULT 'pending'
     CHECK ( status IN ('pending', 'accepted', 'rejected') ),
   percentage INTEGER NOT NULL
@@ -35,8 +35,8 @@ CREATE TABLE IF NOT EXISTS records(
 );
 
 CREATE TABLE IF NOT EXISTS user_permissions(
-  user_id BIGINT NOT NULL REFERENCES users(id),
-  list_id BIGINT NOT NULL REFERENCES lists(id),
+  user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  list_id BIGINT NOT NULL REFERENCES lists(id) ON DELETE CASCADE,
   permissions SMALLINT NOT NULL DEFAULT 0
     CHECK ( permissions >= 0 ),
 
