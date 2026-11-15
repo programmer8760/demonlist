@@ -16,6 +16,10 @@ var (
 	ErrInvalidPassword   = errors.New("invalid password")
 	ErrUserNotFound      = errors.New("user not found")
 	ErrUnauthorized      = errors.New("unauthorized")
+	ErrForbidden         = errors.New("forbidden")
+	ErrInvalidID         = errors.New("invalid id")
+	ErrInvalidListName   = errors.New("invalid list name")
+	ErrListNotFound      = errors.New("list not found")
 )
 
 type ErrorResponse struct {
