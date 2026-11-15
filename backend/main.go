@@ -65,13 +65,15 @@ func main() {
 	levelsRepo := repository.NewLevelsRepository(db)
 	usersRepo := repository.NewUsersRepository(db)
 	recordsRepo := repository.NewRecordsRepository(db)
+	permissionsRepo := repository.NewPermissionsRepository(db)
 
 	listsSvc := service.NewListsService(listsRepo, usersRepo, log)
 	levelsSvc := service.NewLevelsService(levelsRepo, listsRepo, log)
 	usersSvc := service.NewUsersService(usersRepo, recordsRepo, log)
 	recordsSvc := service.NewRecordsService(recordsRepo, usersRepo, log)
+	permissionsSvc := service.NewPermissionsService(permissionsRepo, usersRepo, log)
 
-	h := handler.NewHandler(log, listsSvc, levelsSvc, usersSvc, recordsSvc)
+	h := handler.NewHandler(log, listsSvc, levelsSvc, usersSvc, recordsSvc, permissionsSvc)
 
 	addr := ":" + os.Getenv("HTTP_PORT")
 	server := &http.Server{

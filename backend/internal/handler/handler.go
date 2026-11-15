@@ -13,22 +13,24 @@ import (
 )
 
 type Handler struct {
-	routes  *http.ServeMux
-	lists   service.ListsService
-	levels  service.LevelsService
-	users   service.UsersService
-	records service.RecordsService
-	logger  *slog.Logger
+	routes      *http.ServeMux
+	lists       service.ListsService
+	levels      service.LevelsService
+	users       service.UsersService
+	records     service.RecordsService
+	permissions service.PermissionsService
+	logger      *slog.Logger
 }
 
-func NewHandler(log *slog.Logger, lists service.ListsService, levels service.LevelsService, users service.UsersService, records service.RecordsService) *Handler {
+func NewHandler(log *slog.Logger, lists service.ListsService, levels service.LevelsService, users service.UsersService, records service.RecordsService, permissions service.PermissionsService) *Handler {
 	h := &Handler{
-		routes:  http.NewServeMux(),
-		lists:   lists,
-		levels:  levels,
-		users:   users,
-		records: records,
-		logger:  log,
+		routes:      http.NewServeMux(),
+		lists:       lists,
+		levels:      levels,
+		users:       users,
+		records:     records,
+		permissions: permissions,
+		logger:      log,
 	}
 
 	h.routes.HandleFunc("POST /register", h.RegisterUser)
