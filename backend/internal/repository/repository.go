@@ -17,7 +17,13 @@ func NewLevelsRepository(db *sql.DB) LevelsRepository {
 	return &postgresLevelsRepository{db: db}
 }
 
-type ListsRepository interface{}
+type ListsRepository interface {
+	Create(ctx context.Context, list *domain.List) error
+	GetAll(ctx context.Context) ([]domain.List, error)
+	GetByID(ctx context.Context, id uint) (domain.List, error)
+	Update(ctx context.Context, list domain.List) error
+	Delete(ctx context.Context, id uint) error
+}
 
 type postgresListsRepository struct {
 	db *sql.DB
