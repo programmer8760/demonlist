@@ -49,13 +49,16 @@ func (s *usersService) LoginUser(ctx context.Context, attempt domain.User) (Logi
 	if attempt.Username = strings.TrimSpace(attempt.Username); attempt.Username == "" {
 		return LoginUserResponse{}, domain.BadRequest{Err: domain.ErrInvalidUsername}
 	}
+	if attempt.Password = strings.TrimSpace(attempt.Password); attempt.Password == "" {
+		return LoginUserResponse{}, domain.BadRequest{Err: domain.ErrInvalidPassword}
+	}
 
 	user, err := s.repo.GetUserByUsername(ctx, attempt)
 	if err != nil {
 		return LoginUserResponse{}, err
 	}
 
-	err = utils.CheckPassword(user.Password, user.Password)
+	err = utils.CheckPassword(user.Password, attempt.Password)
 	if err != nil {
 		return LoginUserResponse{}, domain.ErrInvalidPassword
 	}
