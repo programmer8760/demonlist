@@ -33,3 +33,28 @@ func requireOwner(ctx context.Context, usersRepo repository.UsersRepository) err
 	}
 	return nil
 }
+
+func requirePermissions(ctx context.Context, usersRepo repository.UsersRepository, permsRepo repository.PermissionsRepository, listID uint, required uint16) error {
+	user, err := currentUser(ctx, usersRepo)
+	if err != nil {
+		return err
+	}
+	if user.Role == "owner" {
+		return nil
+	}
+	if user.Role != "moderator" {
+		return domain.ErrForbidden
+	}
+
+	perms, err := permsRepo.Get(ctx, user.ID, listID)
+	if err != nil {
+		if errors.Is(err, domain.ErrUserPermissionsNotFound) {
+			return domain.ErrForbidden
+		}
+		return err
+	}
+	if !domain.HasPermissions(perms.Permissions, required) {
+		return domain.ErrForbidden
+	}
+	return nil
+}
