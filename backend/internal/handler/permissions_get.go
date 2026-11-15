@@ -33,7 +33,7 @@ func (h *Handler) GetUserPermissions(w http.ResponseWriter, r *http.Request) {
 			WriteErrorJSON(w, err, 403)
 			return
 		}
-		if errors.Is(err, domain.ErrUserPermissionsNotFound) {
+		if errors.Is(err, domain.ErrUserPermissionsNotFound) || errors.Is(err, domain.ErrUserNotFound) {
 			WriteErrorJSON(w, err, 404)
 			return
 		}
