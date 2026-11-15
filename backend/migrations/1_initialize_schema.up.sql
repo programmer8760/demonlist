@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS levels(
   placement INTEGER NOT NULL
     CHECK ( placement > 0 ),
 
-  UNIQUE (list_id, placement)
+  UNIQUE (list_id, placement) DEFERRABLE INITIALLY DEFERRED
 );
 
 CREATE TABLE IF NOT EXISTS users(
