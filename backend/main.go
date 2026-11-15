@@ -62,14 +62,12 @@ func main() {
 	}
 
 	listsRepo := repository.NewListsRepository(db)
-	listsSvc := service.NewListsService(listsRepo, log)
-
 	levelsRepo := repository.NewLevelsRepository(db)
-	levelsSvc := service.NewLevelsService(levelsRepo, listsRepo, log)
-
 	usersRepo := repository.NewUsersRepository(db)
 	recordsRepo := repository.NewRecordsRepository(db)
 
+	listsSvc := service.NewListsService(listsRepo, usersRepo, log)
+	levelsSvc := service.NewLevelsService(levelsRepo, listsRepo, log)
 	usersSvc := service.NewUsersService(usersRepo, recordsRepo, log)
 	recordsSvc := service.NewRecordsService(recordsRepo, usersRepo, log)
 
