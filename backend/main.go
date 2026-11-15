@@ -37,10 +37,11 @@ func main() {
 	}
 
 	db, err := database.Connect()
-	defer db.Close()
 	if err != nil {
+		log.Error("database connection failed", "err", err)
 		os.Exit(1)
 	}
+	defer db.Close()
 
 	if err = db.Ping(); err != nil {
 		log.Error("database didn't respond to ping", "err", err)
