@@ -57,7 +57,13 @@ func NewRecordsRepository(db *sql.DB) RecordsRepository {
 	return &postgresRecordsRepository{db: db}
 }
 
-type PermissionsRepository interface{}
+type PermissionsRepository interface {
+	Create(ctx context.Context, perms *domain.UserPermissions) error
+	GetByListID(ctx context.Context, listID uint) ([]domain.UserPermissions, error)
+	Get(ctx context.Context, userID uint, listID uint) (domain.UserPermissions, error)
+	Update(ctx context.Context, perms domain.UserPermissions) error
+	Delete(ctx context.Context, userID uint, listID uint) error
+}
 
 type postgresPermissionsRepository struct {
 	db *sql.DB
