@@ -24,6 +24,12 @@ var (
 	ErrUserPermissionsNotFound     = errors.New("user permissions not found")
 	ErrUserPermissionsAlreadyExist = errors.New("user already has permissions in this list")
 	ErrUserNotModerator            = errors.New("user is not a moderator")
+	ErrInvalidLevelName            = errors.New("invalid level name")
+	ErrInvalidLevelDescription     = errors.New("invalid level description")
+	ErrInvalidShowcaseLink         = errors.New("invalid showcase link")
+	ErrInvalidPlacement            = errors.New("invalid placement")
+	ErrInvalidLevelOrder           = errors.New("level order must contain every level of the list exactly once")
+	ErrLevelNotFound               = errors.New("level not found")
 )
 
 type ErrorResponse struct {
