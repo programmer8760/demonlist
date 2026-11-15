@@ -15,6 +15,7 @@ var (
 	ErrInvalidUsername   = errors.New("invalid username")
 	ErrInvalidPassword   = errors.New("invalid password")
 	ErrUserNotFound      = errors.New("user not found")
+	ErrUnauthorized      = errors.New("unauthorized")
 )
 
 type ErrorResponse struct {
