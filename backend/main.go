@@ -64,7 +64,7 @@ func main() {
 	listsSvc := service.NewListsService(listsRepo, log)
 
 	levelsRepo := repository.NewLevelsRepository(db)
-	levelsSvc := service.NewListsService(levelsRepo, log)
+	levelsSvc := service.NewLevelsService(levelsRepo, listsRepo, log)
 
 	usersRepo := repository.NewUsersRepository(db)
 	recordsRepo := repository.NewRecordsRepository(db)
