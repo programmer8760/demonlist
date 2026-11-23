@@ -26,3 +26,18 @@ type Level struct {
 	ShowcaseLink string `json:"showcase_link"`
 	Placement    int    `json:"placement"`
 }
+
+const (
+	RecordStatusPending  = "pending"
+	RecordStatusAccepted = "accepted"
+	RecordStatusRejected = "rejected"
+)
+
+type Record struct {
+	ID         uint   `json:"id"`
+	UserID     uint   `json:"user_id"`
+	LevelID    uint   `json:"level_id"`
+	Status     string `json:"status"`
+	Percentage int    `json:"percentage"`
+	VideoLink  string `json:"video_link"`
+}
