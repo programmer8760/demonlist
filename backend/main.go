@@ -70,7 +70,7 @@ func main() {
 	listsSvc := service.NewListsService(listsRepo, usersRepo, log)
 	levelsSvc := service.NewLevelsService(levelsRepo, listsRepo, usersRepo, permissionsRepo, log)
 	usersSvc := service.NewUsersService(usersRepo, recordsRepo, log)
-	recordsSvc := service.NewRecordsService(recordsRepo, usersRepo, log)
+	recordsSvc := service.NewRecordsService(recordsRepo, levelsRepo, usersRepo, permissionsRepo, log)
 	permissionsSvc := service.NewPermissionsService(permissionsRepo, usersRepo, log)
 
 	h := handler.NewHandler(log, listsSvc, levelsSvc, usersSvc, recordsSvc, permissionsSvc)
