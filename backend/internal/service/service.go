@@ -76,19 +76,29 @@ func NewUsersService(repo repository.UsersRepository, recordsRepo repository.Rec
 	}
 }
 
-type RecordsService interface{}
-
-type recordsService struct {
-	repo      repository.RecordsRepository
-	usersRepo repository.UsersRepository
-	logger    *slog.Logger
+type RecordsService interface {
+	SubmitRecord(ctx context.Context, record domain.Record) (domain.Record, error)
+	GetRecordsByLevelID(ctx context.Context, levelID uint, status string) ([]domain.Record, error)
+	GetRecordsByUserID(ctx context.Context, userID uint, status string) ([]domain.Record, error)
+	UpdateRecordStatus(ctx context.Context, id uint, status string) (domain.Record, error)
+	DeleteRecord(ctx context.Context, id uint) error
 }
 
-func NewRecordsService(repo repository.RecordsRepository, usersRepo repository.UsersRepository, log *slog.Logger) RecordsService {
+type recordsService struct {
+	repo       repository.RecordsRepository
+	levelsRepo repository.LevelsRepository
+	usersRepo  repository.UsersRepository
+	permsRepo  repository.PermissionsRepository
+	logger     *slog.Logger
+}
+
+func NewRecordsService(repo repository.RecordsRepository, levelsRepo repository.LevelsRepository, usersRepo repository.UsersRepository, permsRepo repository.PermissionsRepository, log *slog.Logger) RecordsService {
 	return &recordsService{
-		repo:      repo,
-		usersRepo: usersRepo,
-		logger:    log,
+		repo:       repo,
+		levelsRepo: levelsRepo,
+		usersRepo:  usersRepo,
+		permsRepo:  permsRepo,
+		logger:     log,
 	}
 }
 
