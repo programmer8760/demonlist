@@ -60,6 +60,8 @@ func NewListsService(repo repository.ListsRepository, usersRepo repository.Users
 type UsersService interface {
 	RegisterUser(ctx context.Context, user domain.User) (RegisterResponse, error)
 	LoginUser(ctx context.Context, user domain.User) (LoginUserResponse, error)
+	UpdateUser(ctx context.Context, input UpdateUserInput) (domain.User, error)
+	DeleteUser(ctx context.Context, id uint) error
 }
 
 type usersService struct {
