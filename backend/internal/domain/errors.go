@@ -30,6 +30,11 @@ var (
 	ErrInvalidPlacement            = errors.New("invalid placement")
 	ErrInvalidLevelOrder           = errors.New("level order must contain every level of the list exactly once")
 	ErrLevelNotFound               = errors.New("level not found")
+	ErrInvalidPercentage           = errors.New("invalid percentage")
+	ErrInvalidVideoLink            = errors.New("invalid video link")
+	ErrInvalidRecordStatus         = errors.New("invalid record status")
+	ErrRecordNotFound              = errors.New("record not found")
+	ErrInvalidRole                 = errors.New("invalid role")
 )
 
 type ErrorResponse struct {
