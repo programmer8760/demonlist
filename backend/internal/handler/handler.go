@@ -55,6 +55,12 @@ func NewHandler(log *slog.Logger, lists service.ListsService, levels service.Lev
 	h.routes.Handle("PUT /levels/{id}", h.Auth(http.HandlerFunc(h.UpdateLevel)))
 	h.routes.Handle("DELETE /levels/{id}", h.Auth(http.HandlerFunc(h.DeleteLevel)))
 
+	h.routes.Handle("POST /levels/{id}/records", h.Auth(http.HandlerFunc(h.SubmitRecord)))
+	h.routes.Handle("GET /levels/{id}/records", h.OptionalAuth(http.HandlerFunc(h.GetRecordsByLevelID)))
+	h.routes.Handle("PUT /records/{id}/status", h.Auth(http.HandlerFunc(h.UpdateRecordStatus)))
+	h.routes.Handle("DELETE /records/{id}", h.Auth(http.HandlerFunc(h.DeleteRecord)))
+	h.routes.Handle("GET /users/{user_id}/records", h.OptionalAuth(http.HandlerFunc(h.GetRecordsByUserID)))
+
 	return h
 }
 
