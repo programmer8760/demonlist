@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"errors"
 	"strings"
 
 	"github.com/programmer8760/demonlist/backend/internal/domain"
@@ -14,12 +15,17 @@ type RegisterResponse struct {
 }
 
 func (s *usersService) RegisterUser(ctx context.Context, user domain.User) (RegisterResponse, error) {
-	if user.Username = strings.TrimSpace(user.Username); user.Username == "" {
-		return RegisterResponse{}, domain.BadRequest{Err: domain.ErrInvalidUsername}
+	username, err := validateUsername(user.Username)
+	if err != nil {
+		return RegisterResponse{}, err
 	}
-	if user.Password = strings.TrimSpace(user.Password); user.Password == "" {
-		return RegisterResponse{}, domain.BadRequest{Err: domain.ErrInvalidPassword}
+	user.Username = username
+
+	password, err := validatePassword(user.Password)
+	if err != nil {
+		return RegisterResponse{}, err
 	}
+	user.Password = password
 
 	hash, err := utils.HashPassword(user.Password)
 	if err != nil {
@@ -55,6 +61,9 @@ func (s *usersService) LoginUser(ctx context.Context, attempt domain.User) (Logi
 
 	user, err := s.repo.GetUserByUsername(ctx, attempt)
 	if err != nil {
+		if errors.Is(err, domain.ErrUserNotFound) {
+			return LoginUserResponse{}, domain.ErrInvalidPassword
+		}
 		return LoginUserResponse{}, err
 	}
 
