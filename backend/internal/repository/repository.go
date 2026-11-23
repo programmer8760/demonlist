@@ -54,7 +54,14 @@ func NewUsersRepository(db *sql.DB) UsersRepository {
 	return &postgresUsersRepository{db: db}
 }
 
-type RecordsRepository interface{}
+type RecordsRepository interface {
+	Create(ctx context.Context, record *domain.Record) error
+	GetByID(ctx context.Context, id uint) (domain.Record, error)
+	GetByLevelID(ctx context.Context, levelID uint, status string) ([]domain.Record, error)
+	GetByUserID(ctx context.Context, userID uint, status string) ([]domain.Record, error)
+	UpdateStatus(ctx context.Context, id uint, status string) error
+	Delete(ctx context.Context, id uint) error
+}
 
 type postgresRecordsRepository struct {
 	db *sql.DB
